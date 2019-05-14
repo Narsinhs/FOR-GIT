@@ -1,0 +1,213 @@
+﻿@model IEnumerable<Dubai_Visa_Project.Models.ApplicationView>
+
+@{
+    ViewBag.Title = "AdminPending";
+}
+
+<h2>AdminPending</h2>
+
+<p>
+    @using (Html.BeginForm("SearchAdminPending", "Admin", FormMethod.Get))
+    {
+        <b>Search By:</b>
+
+        @Html.RadioButton("name", "cid")<text>Client ID</text>
+        @Html.RadioButton("name", "nid")<text>Nationality</text>
+        <br />
+        @Html.TextBox("searchdata")
+        <input type="submit" value="Search" />
+    }
+    @using (Html.BeginForm("AdminPending", "Admin", FormMethod.Get))
+    {
+        <input type="submit" value="All View" />
+    }
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Client_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Last_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Resident)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlaceOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Profession)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Entry_Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Passport_No)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Passport_Issue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Passport_Expiry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Resident_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ST_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.R_ID)
+        </th>
+       
+        <th></th>
+    </tr>
+@if (ViewBag.go == "3")
+{
+    <tr>
+        <td colspan="9">
+            KINDLY CHOICE YOUR SELECTION CRITREA
+        </td>
+    </tr>
+}
+else if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="9">
+            NO DATA FOUND YOU ARE SEARCHING FOR.
+        </td>
+    </tr>
+}
+else
+{
+    foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.First_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Last_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Resident)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlaceOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profession)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.End_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Entry_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Passport_No)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Passport_Issue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Passport_Expiry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Resident_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ST_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.R_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Addby)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+    }
+}
+</table>
