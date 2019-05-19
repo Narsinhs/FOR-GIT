@@ -74,6 +74,18 @@ namespace Dubai_Visa_Project.Models
         [Required]
         [Display(Name = "Profession")]
         public string Profession { get; set; }
+        public void getdetails()
+        {
+            SqlCommand cmd = new SqlCommand("client_details",Connection.Get());
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", Client_ID);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                Email = (string)sdr[8];
+            }
+            sdr.Close();
+        }
         public void add()
         {
             SqlCommand cmd = new SqlCommand("addnewclient",Connection.Get());
@@ -91,16 +103,10 @@ namespace Dubai_Visa_Project.Models
             cmd.Parameters.AddWithValue("@POB",PlaceOfBirth);
             cmd.Parameters.AddWithValue("@genderid",Gender_ID);
             cmd.Parameters.AddWithValue("@profession",Profession);
-            cmd.ExecuteNonQuery();
-        }
-        public void lastclientid()
-        {
-            SqlCommand cmd = new SqlCommand("getlastclientid", Connection.Get());
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {
-                Client_ID = (int)sdr[0];
+                Client_ID = (int)(decimal)sdr[0];
             }
             sdr.Close();
         }

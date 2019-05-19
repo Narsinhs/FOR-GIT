@@ -40,6 +40,7 @@ namespace Dubai_Visa_Project.Models
         public string Addby { get; set; }
         public void addrequest()
         {
+            
             SqlCommand cmd = new SqlCommand("addrequest", Connection.Get());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@travel",Travelers);
@@ -48,17 +49,25 @@ namespace Dubai_Visa_Project.Models
             cmd.Parameters.AddWithValue("@process", Entry_ID);
             cmd.Parameters.AddWithValue("@stid", ST_ID);
             cmd.Parameters.AddWithValue("@addby", Addby);
-            cmd.ExecuteNonQuery();
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                R_ID = (int)(decimal)sdr[0];
+            }
+            sdr.Close();
+            return;
 
         }
-        public void lastrequestid()
+        
+        public void getdetails()
         {
-            SqlCommand cmd = new SqlCommand("getlastrequestid", Connection.Get());
+            SqlCommand cmd = new SqlCommand("request_details",Connection.Get());
+            cmd.Parameters.AddWithValue("@id", R_ID);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {
-                R_ID = (int)sdr[0];
+                Addby = (string)sdr[6];
             }
             sdr.Close();
         }

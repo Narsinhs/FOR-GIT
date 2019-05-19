@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Dubai_Visa_Project.Models
@@ -9,7 +10,11 @@ namespace Dubai_Visa_Project.Models
     public class Admin
     {
         public int Ad_id { get; set; }
+        [Required]
         public string username { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+      
         public string password { get; set; }
         public string Name { get; set; }
         public bool login()

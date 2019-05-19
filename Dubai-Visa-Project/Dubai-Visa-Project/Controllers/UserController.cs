@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dubai_Visa_Project.Models;
+using System.IO;
 
 namespace Dubai_Visa_Project.Controllers
 {
@@ -15,6 +16,11 @@ namespace Dubai_Visa_Project.Controllers
             Models.Country c = new Models.Country();
             Session["Nationality"] = null;
             ViewBag.allcountry = c.GetallCountry();
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Home()
+        {
             return View();
         }
         [HttpPost]
@@ -51,6 +57,7 @@ namespace Dubai_Visa_Project.Controllers
                 clients = r.Travelers;
                 r.Addby = "Client";
                 r.addrequest();
+                Session["RRequest"] = r.R_ID;
                 return RedirectToAction("Client");
             }
             else
@@ -93,6 +100,7 @@ namespace Dubai_Visa_Project.Controllers
             {
                 Session["Client"] = c;
                 c.add();
+                Session["RClient"] = c.Client_ID;
                 return RedirectToAction("Application");
             }
             Models.Country country = new Models.Country();
@@ -106,25 +114,57 @@ namespace Dubai_Visa_Project.Controllers
         [HttpGet]
         public ActionResult Application()
         {
-            if (Session["Request"] == null || Session["Client"] == null)
-            {
-                return RedirectToAction("Request");
-            }
+            //if (Session["Request"] == null || Session["Client"] == null)
+            //{
+            //    return RedirectToAction("Request");
+            //}
             return View();
         }
         [HttpPost]
         public ActionResult Application(Application ap)
         {
+
+            
             if (ModelState.IsValid)
             {
+                //PassportScan
+                string filename = Path.GetFileNameWithoutExtension(ap.Passport_Scanpic.FileName);
+                string extension = Path.GetExtension(ap.Passport_Scanpic.FileName);
+                filename = filename + "1" + extension;
+                ap.Passport_Scan = "~/Image/" + filename;
+                filename = Path.Combine(Server.MapPath("~/Image/"), filename);
+                ap.Passport_Scanpic.SaveAs(filename);
+                //PassportPhoto
+                filename = Path.GetFileNameWithoutExtension(ap.Passport_Photopic.FileName);
+                extension = Path.GetExtension(ap.Passport_Photopic.FileName);
+                filename = filename + "1" + extension;
+                ap.Passport_Photo = "~/Image/" + filename;
+                filename = Path.Combine(Server.MapPath("~/Image/"), filename);
+                ap.Passport_Photopic.SaveAs(filename);
+                //Visa
+                if (ap.UKvisapic != null)
+                {
+                    filename = Path.GetFileNameWithoutExtension(ap.UKvisapic.FileName);
+                    extension = Path.GetExtension(ap.UKvisapic.FileName);
+                    filename = filename + "1" + extension;
+                    ap.UKvisa = "~/Image/" + filename;
+                    filename = Path.Combine(Server.MapPath("~/Image/"), filename);
+                    ap.UKvisapic.SaveAs(filename);
+                }
+                //Ticket
+                if (ap.Ticketpic != null)
+                {
+                    filename = Path.GetFileNameWithoutExtension(ap.Ticketpic.FileName);
+                    extension = Path.GetExtension(ap.Ticketpic.FileName);
+                    filename = filename + "1" + extension;
+                    ap.Ticket = "~/Image/" + filename;
+                    filename = Path.Combine(Server.MapPath("~/Image/"), filename);
+                    ap.Ticketpic.SaveAs(filename);
+                }
                 clients--;
-                Client c = new Models.Client();
-                c.lastclientid();
-                ap.Client_ID = c.Client_ID;
-                ap.Status_ID = 1;
-                Request r = new Models.Request();
-                r.lastrequestid();
-                ap.R_ID = r.R_ID;
+                ap.Client_ID = Convert.ToInt32(Session["RClient"]);
+                ap.R_ID = Convert.ToInt32(Session["RRequest"]);
+               
                 ap.add();
                 
                 if (clients == 0)
